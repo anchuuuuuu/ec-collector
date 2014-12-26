@@ -62,7 +62,7 @@ def crawl(words, pmax):
     # deploy環境なら、passを公開用のやつに
     #stime = "/var/www/ec2/" + stime
     
-    os.system('mkdir ' + stime)
+    os.system('sudo mkdir ' + stime)
 
     # 楽天をクロール
     rcrawl(words, pmax, stime)
@@ -80,7 +80,7 @@ def rcrawl(words, pmax, stime):
     urls = wordstourlsR(words)
 
     # 楽天のディレクトリ作成
-    os.system('mkdir ' + stime + '/Rakuten')
+    os.system('sudo mkdir ' + stime + '/Rakuten')
 
     # 全てのseed urlに対して
     for n in range(len(urls)):
@@ -92,7 +92,7 @@ def rcrawl(words, pmax, stime):
         # ディレクトリ作成
         path = stime + '/Rakuten/' + word.encode('utf-8')
         picpath = stime + '/Rakuten/' + word.encode('utf-8')
-        os.system('mkdir ' + picpath)
+        os.system('sudo mkdir ' + picpath)
 
         # ファイルの一行目用意
         column = [u"no", u"name", u"url", u"caption", u"shopname", u"shopurl", u"price"]
@@ -199,8 +199,8 @@ def rcrawl(words, pmax, stime):
         os.system('nkf -s --overwrite ' + './' + fname)
     
         # パーミッション変更
-        os.system('find . -type f -exec chmod 755 \{\} \;')
-        os.system('find . -type d -exec chmod 755 \{\} \;')
+        os.system('sudo find . -type f -exec chmod 755 \{\} \;')
+        os.system('sudo find . -type d -exec chmod 755 \{\} \;')
 
         # zip化
         os.system('zip -r ' + stime + '.zip ' + stime)
