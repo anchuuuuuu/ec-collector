@@ -58,9 +58,12 @@ def crawl(words, pmax):
 
     # タイムスタンプは起動時
     stime = datetime.datetime.now().isoformat().replace('T','-').replace(':','-').replace('.','-')
-#    stime = stime + "-" + word.encode('utf-8')
+    
+    # deploy環境なら、passを公開用のやつに
+    #stime = "/var/www/ec2/" + stime
+    
     os.system('mkdir ' + stime)
-   
+
     # 楽天をクロール
     rcrawl(words, pmax, stime)
 
@@ -78,7 +81,7 @@ def rcrawl(words, pmax, stime):
 
     # 楽天のディレクトリ作成
     os.system('mkdir ' + stime + '/Rakuten')
-   
+
     # 全てのseed urlに対して
     for n in range(len(urls)):
 
@@ -193,6 +196,9 @@ def rcrawl(words, pmax, stime):
         f.close() #ファイルオブジェクトを閉じとく
         # Excelで読めるよう, utf8 -> sjis変換
         os.system('nkf -s --overwrite ' + './' + fname)
+        os.system('find . -type f -exec chmod 755 \{\} \;')
+        os.system('find . -type d -exec chmod 755 \{\} \;')
+
 
 # 楽天用, 次ページurl取得
 def getnexturlR(word, npage):
