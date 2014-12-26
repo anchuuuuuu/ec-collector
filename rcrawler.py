@@ -194,10 +194,16 @@ def rcrawl(words, pmax, stime):
 
         # 終了時処理
         f.close() #ファイルオブジェクトを閉じとく
+
         # Excelで読めるよう, utf8 -> sjis変換
         os.system('nkf -s --overwrite ' + './' + fname)
+    
+        # パーミッション変更
         os.system('find . -type f -exec chmod 755 \{\} \;')
         os.system('find . -type d -exec chmod 755 \{\} \;')
+
+        # zip化
+        os.system('zip -r ' + stime + '.zip ' + stime)
 
 
 # 楽天用, 次ページurl取得
