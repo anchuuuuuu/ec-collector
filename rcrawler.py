@@ -202,7 +202,7 @@ def rcrawl(words, pmax, stime):
         os.system('sudo find . -type d -exec chmod 755 \{\} \;')
 
     # zip化
-    com = 'cd /var/www/ec2/; zip -r ' + stime.split('/')[4] + '.zip ' + stime
+    com = 'cd /var/www/ec2/; zip -r ' + stime.split('/')[4] + '.zip ' + stime.split('/')[4]
     os.system(com)
 
 
