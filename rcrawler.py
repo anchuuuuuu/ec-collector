@@ -8,8 +8,7 @@ import datetime
 from bs4 import BeautifulSoup ,  NavigableString, Declaration, Comment
 
 
-# TODO: timestampは統一
-# TODO: ファイル名を綺麗に, 保存も綺麗に
+# TODO: 文言をupdate可能に(phpからupdateし、list.txtを上書き)
 
 # TODO: Google, Amazon対応
 
@@ -60,8 +59,8 @@ def crawl(words, pmax):
     stime = datetime.datetime.now().isoformat().replace('T','-').replace(':','-').replace('.','-')
     
     # deploy環境なら、passを公開用のやつに
-    #stime = "/var/www/ec2/" + stime
-    
+    stime = "/var/www/ec2/" + stime
+
     os.system('sudo mkdir ' + stime)
 
     # 楽天をクロール
@@ -196,14 +195,18 @@ def rcrawl(words, pmax, stime):
         f.close() #ファイルオブジェクトを閉じとく
 
         # Excelで読めるよう, utf8 -> sjis変換
-        os.system('nkf -s --overwrite ' + './' + fname)
+        os.system('nkf -s --overwrite ' + fname)
     
         # パーミッション変更
         os.system('sudo find . -type f -exec chmod 755 \{\} \;')
         os.system('sudo find . -type d -exec chmod 755 \{\} \;')
 
     # zip化
-    os.system('zip -r ' + stime + '.zip ' + stime)
+    com = 'zip -r ' + stime.split('/')[3] + '.zip ' + stime
+    os.system(com)
+
+    com = 'mv ' + stime.split('/')[3] + '.zip ' + stime + '.zip'
+    os.system(com)
 
 
 # 楽天用, 次ページurl取得
@@ -231,7 +234,7 @@ def wordstourlsR(words):
 if __name__ == "__main__":
 
     # 商品数
-    pmax = 400
+    pmax = 100
     
     # 検索文言ファイル名
     fname = "list.txt"
