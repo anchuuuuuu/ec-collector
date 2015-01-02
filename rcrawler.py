@@ -417,13 +417,13 @@ if __name__ == "__main__":
 
     # -d optionのget
     if len(sys.argv) > 1:
-        if sys.argv[1] == "-d":
+        if "-d" in sys.argv:
             develop = 1
 
     print develop
 
     # 商品数
-    pmax = 00
+    pmax = 100
     
     # 検索文言ファイル名
     fname = "list.txt"
